@@ -1,14 +1,15 @@
 import Card from "../Card/Card";
 import { CardContainer } from "./styledComponents";
 
-export default function Cards({characters}) {//originalmente, reciba props, y definia characters = props
-  const onClose = () => window.alert("Emulamos que cierre la card");
+export default function Cards({characters, onClose}) {//originalmente, reciba props, y definia characters = props
+  //const onClose = () => window.alert("Emulamos que cierre la card");
   return (
     <CardContainer>
-      {characters.map(({name, species, gender, image}) => {//donde se enumera el objeto, puede ir characters...
+      {characters.map(({id, name, species, gender, image}) => {//donde se enumera el objeto, puede ir characters...
        
        return (//... llamar characters.name
           <Card
+            id = {id}
             image = {image}
             name = {name}
             species = {species}
