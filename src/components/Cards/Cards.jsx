@@ -7,8 +7,9 @@ export default function Cards({characters, onClose}) {//originalmente, reciba pr
     <CardContainer>
       {characters.map(({id, name, species, gender, image}) => {//donde se enumera el objeto, puede ir characters...
        
-       return (//... llamar characters.name
+       return (//... llamar characters.name. Cuando mapeo, siempre agregar key
           <Card
+            key = {id/*esto se pone para que se ordene react. identifica cada carta con key */}
             id = {id}
             image = {image}
             name = {name}

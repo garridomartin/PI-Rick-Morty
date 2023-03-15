@@ -1,0 +1,60 @@
+import { useState } from "react";
+
+import validation from "./validation";
+
+const Form = ({ login }) => {
+  const [userData, setUserData] = useState({
+    username:"",
+    password:"",
+  });
+  const handleInputChange = (event) => {
+    const property = event.target.name;
+    const value = event.target.value;
+    setUserData({ ...userData, [property]: value });
+    validation({ ...userData, [property]: value}, errors, setErrors);
+  };
+
+  const [errors, setErrors] = useState({
+    username:"",
+    password:"",
+  }); 
+
+  const submitHandler = (event)=> {
+    event.preventDefault();/*evito que se suceda por defecto, el submit (no me recarga la  pag) */
+    login(userData);
+  }
+
+
+  return (
+
+        <form onSubmit={submitHandler}>
+          <div>
+            <label htmlFor="username">USERNAME: </label>
+            <input
+              type="text"
+              name="username"
+              autocomplete="off"
+              value={userData.username}
+              onChange={handleInputChange}
+            />
+          </div>
+          <div>
+            <label htmlFor="password">PASSWORD: </label>
+            <input
+              type="text"
+              name="password"
+              autocomplete="off"
+              value={userData.password}
+              onChange={handleInputChange}
+            />
+          </div>
+          <p>{errors.username}</p>
+          <div>
+            <button>LOGIN</button>
+          </div>
+        </form>
+    
+  );
+};
+
+export default Form;
