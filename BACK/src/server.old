@@ -1,0 +1,30 @@
+const http = require("http");//estoy importando http, pero rquiriendolo. No se puede hacer import directamente
+//                             //NO SE PUEDE HACER IMPORT FUERA DE UN MODULO
+// //http.createServer((req, res)=>{}).listen(3001, "localhost");
+// //!↑↑↑CREO EL SERVIDOR, DEFINO una cb, con parametros de reqUIRE y resPONSE. El server usara el puerto 3001, del host local
+const data = require("./utils/data");
+
+const PORT = 3001;
+
+http.createServer((req, res)=>{
+    console.log("Hello this server is runing in port " + PORT);
+     res.setHeader("Access-Control-Allow-Origin", "*");//nombre de la cabecera, y "*" habilita cualquier origen de ingreso (danger)
+     
+     //console.log(url); esto lo hago de control: si hago un request con insomnia(http://localhost:3001/prueba), me devuelve el console.log 
+     if(req.url.includes("/rickandmorty/character/")) {
+         //console.log("esto anda???")// si ↑ funciona, deberia ante un request, consologuear.ok!!! check!!!
+         //res.end("estoy en la ruta")//pruebo si funciona la respuesta. Veo que anda en insomnia
+         const id = req.url.split("/")//paso previo a obtener el id. Luego lo elegire
+         //res.end(`aca, probando la obtencion del ${id}`), mismo que linea 13, pero pruebo el id. ok!!! check!!!
+         const person = data.find(finding => finding.id === Number(id[id.length - 1]));//busco dentro de data(array) el objeto con el id que desee
+         //console.log(person)chequeo que la variable person devuelva lo buscado. ok!!! check!!!
+         if (person) {//si hay algun character
+             res.writeHead(200, { "Content-Type" : "application-json" });//establezco codigo de respuesta 200(todo ok), y tipo de contenido (objeto json)
+             return res.end(JSON.stringify(person));//defino la respuesta que enviare al cliente (end), y convierto el objeto character en una cadeja JSON
+         } else {
+             res.writeHead(404, { "Content-Type" : "application-json" });
+             return res.end(JSON.stringify({ error: "Character not found" }));
+         }
+     }
+ })
+ .listen(PORT, "localhost"); 
